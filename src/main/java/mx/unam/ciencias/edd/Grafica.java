@@ -105,7 +105,8 @@ public class Grafica<T> implements Coleccion<T> {
      *         la gráfica.
      */
     @Override public void agrega(T elemento) {
-        // Aquí va su código.
+        if(vertices.contiene(elemento)) throw new IllegalArgumentException();
+        vertices.agrega(new Vertice(elemento)); 
     }
 
     /**
@@ -167,8 +168,11 @@ public class Grafica<T> implements Coleccion<T> {
      *         gráfica.
      */
     @Override public void elimina(T elemento) {
-        // Aquí va su código.
-    }
+        Vertice buscado = buscaVertice(elemento);
+
+        if(buscado == null) throw new NoSuchElementException();
+        vertices.elimina(buscado);
+    }   
 
     /**
      * Nos dice si dos elementos de la gráfica están conectados. Los elementos
@@ -300,16 +304,21 @@ public class Grafica<T> implements Coleccion<T> {
      */
     @Override public String toString() {
         String toString = "{";
-        toString += vertices.toString();
-        toString += "},"
-        toString += "{"
-        pintaVerticesRojo();
         for(Vertice v: vertices)
+            toString += v.elemento+", ";
+        toString += "},";
+        toString += "{";
+        pintaVerticesRojo();
+        for(Vertice v: vertices){
             v.color = Color.NEGRO;
-            for(Vertice w: v.vecinos)
-                if(w.color == Color.ROJO)
-                toString += "("+v.toString()+", "+w.toString()+")";
-                w.color = Color.NEGRO
+            for(Vertice w: v.vecinos){
+                if(w.color == Color.ROJO){
+                toString += "("+v.elemento.toString()+", "+w.elemento.toString()+"), ";
+                w.color = Color.NEGRO;
+                }
+            }
+        }
+        toString += "}";
         return toString;
     }
 
