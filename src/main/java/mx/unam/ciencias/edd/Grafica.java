@@ -105,7 +105,9 @@ public class Grafica<T> implements Coleccion<T> {
      *         la gráfica.
      */
     @Override public void agrega(T elemento) {
-        if(vertices.contiene(elemento)) throw new IllegalArgumentException();
+        Vertice buscado = buscaVertice(elemento);
+        
+        if(buscado != null) throw new IllegalArgumentException();
         vertices.agrega(new Vertice(elemento)); 
     }
 
