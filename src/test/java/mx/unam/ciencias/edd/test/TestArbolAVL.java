@@ -125,6 +125,10 @@ public class TestArbolAVL {
             Assert.assertTrue(it.get() == n);
             arbolAVLValido(arbol);
         }
+        System.out.println("falla luego for");
+        System.out.println("falla luego for");
+        System.out.println("falla luego for");
+        System.out.println("falla luego for");
         Assert.assertTrue(arbol.getElementos() == total);
     }
 
