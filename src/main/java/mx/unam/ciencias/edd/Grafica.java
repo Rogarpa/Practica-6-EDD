@@ -254,8 +254,8 @@ public class Grafica<T> implements Coleccion<T> {
         boolean esConexa = true;
         pintaVertices(Color.ROJO);
 
-        recorrido(vertices.get(0), v -> , (MeteSaca)new Pila<Vertice>());
-        
+        recorrido(vertices.get(0), v -> {}, (MeteSaca)new Pila<Vertice>());
+
         for(Vertice v: vertices)
             if(v.color == Color.ROJO) esConexa = false;
 
@@ -286,7 +286,7 @@ public class Grafica<T> implements Coleccion<T> {
         Vertice buscado = buscaVertice(elemento);
         
         if(buscado == null) throw new NoSuchElementException();
-        
+
         recorrido(buscado, accion, (MeteSaca)new Cola<Vertice>());
         pintaVertices(Color.NINGUNO);
     }
@@ -294,9 +294,8 @@ public class Grafica<T> implements Coleccion<T> {
     private void recorrido(Vertice v, AccionVerticeGrafica<T> accion, MeteSaca<Vertice> implementacion){
         if(accion == null || v == null || implementacion == null) return;
 
-        
-        Vertice aux = null;
         pintaVertices(Color.ROJO);
+        Vertice aux = null;
         
         v.color = Color.NEGRO;
         implementacion.mete(v);
