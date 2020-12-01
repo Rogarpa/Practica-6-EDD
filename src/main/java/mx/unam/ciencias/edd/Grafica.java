@@ -146,7 +146,7 @@ public class Grafica<T> implements Coleccion<T> {
         Vertice bb = buscaVertice(b);
         
         if(aa == null || bb == null) throw new NoSuchElementException("No es posible desconectar dos vertices que no son elementos de la gráfica.");
-        if(sonVecinos(a, b)) throw new IllegalArgumentException("No puedes desconectar dos vertices que no están conectados.");
+        if(!sonVecinos(a, b)) throw new IllegalArgumentException("No puedes desconectar dos vertices que no están conectados.");
 
         aristas--;
         aa.vecinos.elimina(bb);
@@ -316,7 +316,6 @@ public class Grafica<T> implements Coleccion<T> {
             for(Vertice w: v.vecinos){
                 if(w.color == Color.ROJO){
                 toString += "("+v.elemento.toString()+", "+w.elemento.toString()+"), ";
-                w.color = Color.NEGRO;
                 }
             }
         }
