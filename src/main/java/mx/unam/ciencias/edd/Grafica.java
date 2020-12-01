@@ -105,6 +105,7 @@ public class Grafica<T> implements Coleccion<T> {
      *         la gráfica.
      */
     @Override public void agrega(T elemento) {
+        if(elemento == null) throw new IllegalArgumentException();
         Vertice buscado = buscaVertice(elemento);
         
         if(buscado != null) throw new IllegalArgumentException();
@@ -247,9 +248,17 @@ public class Grafica<T> implements Coleccion<T> {
      *         otro caso.
      */
     public boolean esConexa() {
+        //vacuidad
+        if(vertices.esVacia()) return false;
+
         boolean esConexa = true;
+        pintaVertices(Color.ROJO);
+
+        recorrido(vertices.get(0), v -> , (MeteSaca)new Pila<Vertice>());
+        
         for(Vertice v: vertices)
-            if(v.color == Color.NEGRO) esConexa = false;
+            if(v.color == Color.ROJO) esConexa = false;
+
         return esConexa;
     }
 
@@ -274,8 +283,36 @@ public class Grafica<T> implements Coleccion<T> {
      * @throws NoSuchElementException si el elemento no está en la gráfica.
      */
     public void bfs(T elemento, AccionVerticeGrafica<T> accion) {
-        // Aquí va su código.
+        Vertice buscado = buscaVertice(elemento);
+        
+        if(buscado == null) throw new NoSuchElementException();
+        
+        recorrido(buscado, accion, (MeteSaca)new Cola<Vertice>());
+        pintaVertices(Color.NINGUNO);
     }
+
+    private void recorrido(Vertice v, AccionVerticeGrafica<T> accion, MeteSaca<Vertice> implementacion){
+        if(accion == null || v == null || implementacion == null) return;
+
+        
+        Vertice aux = null;
+        pintaVertices(Color.ROJO);
+        
+        v.color = Color.NEGRO;
+        implementacion.mete(v);
+        
+        while(!implementacion.esVacia()){
+            aux = implementacion.saca();
+            accion.actua((VerticeGrafica)aux);
+            for(Vertice aRecorrer: aux.vecinos)
+                if(aRecorrer.color == Color.ROJO){
+                    aRecorrer.color = Color.NEGRO;
+                    implementacion.mete(aRecorrer);
+                }
+        }
+        
+    }
+
 
     /**
      * Realiza la acción recibida en todos los vértices de la gráfica, en el
@@ -288,7 +325,12 @@ public class Grafica<T> implements Coleccion<T> {
      * @throws NoSuchElementException si el elemento no está en la gráfica.
      */
     public void dfs(T elemento, AccionVerticeGrafica<T> accion) {
-        // Aquí va su código.
+        Vertice buscado = buscaVertice(elemento);
+        
+        if(buscado == null) throw new NoSuchElementException();
+        
+        recorrido(buscado, accion, (MeteSaca)new Pila<Vertice>());
+        pintaVertices(Color.NINGUNO);
     }
 
     /**
@@ -318,7 +360,7 @@ public class Grafica<T> implements Coleccion<T> {
             toString += v.elemento+", ";
         toString += "},";
         toString += "{";
-        pintaVerticesRojo();
+        pintaVertices(Color.ROJO);
         for(Vertice v: vertices){
             v.color = Color.NEGRO;
             for(Vertice w: v.vecinos){
@@ -331,9 +373,9 @@ public class Grafica<T> implements Coleccion<T> {
         return toString;
     }
 
-    private void pintaVerticesRojo(){
+    private void pintaVertices(Color color){
         for(Vertice v: vertices)
-            v.color = Color.ROJO;
+            v.color = color;
     }
 
     /**
