@@ -87,7 +87,7 @@ public class Grafica<T> implements Coleccion<T> {
      * @return el número de elementos en la gráfica.
      */
     @Override public int getElementos() {
-        return 0;
+        return vertices.getElementos();
     }
 
     /**
@@ -159,7 +159,7 @@ public class Grafica<T> implements Coleccion<T> {
      *         <code>false</code> en otro caso.
      */
     @Override public boolean contiene(T elemento) {
-        return false;        
+        return buscaVertice(elemento) != null;
     }
 
     /**
@@ -174,6 +174,13 @@ public class Grafica<T> implements Coleccion<T> {
 
         if(buscado == null) throw new NoSuchElementException();
         vertices.elimina(buscado);
+
+        for(Vertice v: buscado.vecinos){
+            v.vecinos.
+            elimina(buscado);
+            aristas--;
+        }
+        
     }   
 
     /**
@@ -297,7 +304,8 @@ public class Grafica<T> implements Coleccion<T> {
      * Limpia la gráfica de vértices y aristas, dejándola vacía.
      */
     @Override public void limpia() {
-        // Aquí va su código.
+        vertices = new Lista<>();
+        aristas = 0;
     }
 
     /**
