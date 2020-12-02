@@ -357,7 +357,7 @@ public class Grafica<T> implements Coleccion<T> {
         String toString = "{";
         for(Vertice v: vertices)
             toString += v.elemento+", ";
-        toString += "},";
+        toString += "}, ";
         toString += "{";
         pintaVertices(Color.ROJO);
         for(Vertice v: vertices){
@@ -388,7 +388,25 @@ public class Grafica<T> implements Coleccion<T> {
             return false;
         @SuppressWarnings("unchecked") Grafica<T> grafica = (Grafica<T>)objeto;
 
-        return false;
+        System.out.println("pasado 0");
+        if(aristas != grafica.aristas || vertices.getElementos() != grafica.vertices.getElementos()){
+            System.out.println("caso1");
+            return false;
+        }
+
+        for(Vertice v: vertices)
+            if(! grafica.contiene(v.elemento)){
+                System.out.println("caso2");
+                return false;
+            }
+        
+        System.out.println("pasado1");
+
+        for(Vertice v: vertices)
+            for(Vertice w: grafica.vertices)
+                if(sonVecinos(v.elemento, w.elemento) ^ grafica.sonVecinos(v.elemento, w.elemento)) return false;
+        return true;
+
     }
 
     /**
